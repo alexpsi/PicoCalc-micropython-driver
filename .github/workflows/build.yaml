@@ -15,9 +15,12 @@ jobs:
           path: ./micropython
       - name: Check out repository code
         uses: actions/checkout@v4
+        with:
+          path: ./PicoCalc-micropython-driver
   
       - name: List files in the repository
         run: |
+          ls ${{ github.workspace }}
           cp ${{ github.workspace }}/PicoCalc-micropython-driver/pico_files/fbconsole.py ${{ github.workspace }}/micropython/ports/rp2/modules
           cp ${{ github.workspace }}/PicoCalc-micropython-driver/pico_files/picocalc.py ${{ github.workspace }}/micropython/ports/rp2/modules
           cd micropython/ports/rp2
