@@ -15,9 +15,12 @@ jobs:
           path: ./micropython
       - name: Check out repository code
         uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+  
       - name: List files in the repository
         run: |
-          ls ${{ github.workspace }}
+          cp ${{ github.workspace }}/PicoCalc-micropython-driver/pico_files/fbconsole.py ${{ github.workspace }}/micropython/ports/rp2/modules
+          cp ${{ github.workspace }}/PicoCalc-micropython-driver/pico_files/picocalc.py ${{ github.workspace }}/micropython/ports/rp2/modules
+          cd micropython/ports/rp2
+          git submodule update --init --recursive
+          mkdir build && cd build
       - run: echo "🍏 This job's status is ${{ job.status }}."
