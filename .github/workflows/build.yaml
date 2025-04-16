@@ -26,4 +26,6 @@ jobs:
           cd micropython/ports/rp2
           git submodule update --init --recursive
           mkdir build && cd build
+          cmake .. -DUSER_C_MODULES="${{ github.workspace }}/PicoCalc-micropython-driver/picocalcdisplay/micropython.cmake;${{ github.workspace }}/PicoCalc-micropython-driver/vtterminal/micropython.cmake" -DMICROPY_BOARD=RPI_PICO2_W
+          make
       - run: echo "🍏 This job's status is ${{ job.status }}."
