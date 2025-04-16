@@ -6,6 +6,8 @@
 #include "py/mphal.h"
 #include "py/gc.h"
 #include "py/misc.h"
+#include <stdio.h>
+
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
