@@ -1,8 +1,8 @@
-name: Build
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: PicoCalc Micropython Firmware Build
+run-name: ${{ github.actor }} is building PicoCalc Micropython Firmware
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  Build-PicoCalc-Micropython-Firmware:
     runs-on: ubuntu-latest
     steps:
       - name: Check out micropython
@@ -15,25 +15,22 @@ jobs:
         with:
           path: ./PicoCalc-micropython-driver
   
-      - name: List files in the repository
+      - name: Prepare the environment
         run: |
           sudo apt install -y cmake python3 build-essential gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib
-          ls ${{ github.workspace }}
           cp ${{ github.workspace }}/PicoCalc-micropython-driver/pico_files/fbconsole.py ${{ github.workspace }}/micropython/ports/rp2/modules
           cp ${{ github.workspace }}/PicoCalc-micropython-driver/pico_files/picocalc.py ${{ github.workspace }}/micropython/ports/rp2/modules
           cd micropython/ports/rp2
           git submodule update --init --recursive
+
+      - name: Build the firmware
+        run: |
+          cd micropython/ports/rp2
           mkdir build && cd build
           cmake .. -DUSER_C_MODULES="${{ github.workspace }}/PicoCalc-micropython-driver/picocalcdisplay/micropython.cmake;${{ github.workspace }}/PicoCalc-micropython-driver/vtterminal/micropython.cmake" -DMICROPY_BOARD=RPI_PICO2_W
           make
-          ls
 
       - uses: actions/upload-artifact@v4
         with:
-          # Name of the artifact to upload.
-          # Optional. Default is 'artifact'
           name: firmware.uf2
-
-          # A file, directory or wildcard pattern that describes what to upload
-          # Required.
           path: ${{ github.workspace }}/micropython/ports/rp2/build/firmware.uf2
