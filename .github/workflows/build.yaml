@@ -20,6 +20,7 @@ jobs:
   
       - name: List files in the repository
         run: |
+          sudo apt install -y cmake python3 build-essential gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib
           ls ${{ github.workspace }}
           cp ${{ github.workspace }}/PicoCalc-micropython-driver/pico_files/fbconsole.py ${{ github.workspace }}/micropython/ports/rp2/modules
           cp ${{ github.workspace }}/PicoCalc-micropython-driver/pico_files/picocalc.py ${{ github.workspace }}/micropython/ports/rp2/modules
